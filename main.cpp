@@ -1,14 +1,10 @@
 #include <QApplication>
-#include <QPushButton>
+#include "finddialog.h"
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
-    QApplication app (argc, argv);
-
-    QPushButton button;
-    button.setText("My text");
-    button.setToolTip("A tooltip");
-    button.show();
-
+    QApplication app(argc, argv);
+    FindDialog *dialog = new FindDialog;
+    dialog->show();
     return app.exec();
 }
