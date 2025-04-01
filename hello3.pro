@@ -10,9 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     finddialog.cpp \
+    gotocelldialog.cpp \
     main.cpp \
-    mainwindow.cpp
+    sortdialog.cpp
+    #mainwindow.cpp
 
 HEADERS += \
     finddialog.h \
-    mainwindow.h
+    gotocelldialog.h \
+    sortdialog.h
+    #mainwindow.h

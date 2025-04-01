@@ -22,7 +22,7 @@ FindDialog::FindDialog(QWidget *parent)
     connect(findButton, SIGNAL(clicked()),
         this, SLOT(findClicked()));
     connect(closeButton, SIGNAL(clicked()),
-            this, SLOT(close()));
+        this, SLOT(close()));
 
     QHBoxLayout *topLeftLayout = new QHBoxLayout;
     topLeftLayout->addWidget(label);

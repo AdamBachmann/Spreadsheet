@@ -53,14 +53,14 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../../finddialog.cpp \
-		../../main.cpp \
-		../../mainwindow.cpp moc_finddialog.cpp \
-		moc_mainwindow.cpp
+		../../gotocelldialog.cpp \
+		../../main.cpp moc_finddialog.cpp \
+		moc_gotocelldialog.cpp
 OBJECTS       = finddialog.o \
+		gotocelldialog.o \
 		main.o \
-		mainwindow.o \
 		moc_finddialog.o \
-		moc_mainwindow.o
+		moc_gotocelldialog.o
 DIST          = /home/adam/Qt/6.8.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/adam/Qt/6.8.3/gcc_64/mkspecs/common/unix.conf \
 		/home/adam/Qt/6.8.3/gcc_64/mkspecs/common/linux.conf \
@@ -297,9 +297,9 @@ DIST          = /home/adam/Qt/6.8.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/adam/Qt/6.8.3/gcc_64/mkspecs/features/yacc.prf \
 		/home/adam/Qt/6.8.3/gcc_64/mkspecs/features/lex.prf \
 		../../../../hello3.pro ../../finddialog.h \
-		../../mainwindow.h ../../finddialog.cpp \
-		../../main.cpp \
-		../../mainwindow.cpp
+		../../gotocelldialog.h ../../finddialog.cpp \
+		../../gotocelldialog.cpp \
+		../../main.cpp
 QMAKE_TARGET  = hello3
 DESTDIR       = 
 TARGET        = hello3
@@ -805,8 +805,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/adam/Qt/6.8.3/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../finddialog.h ../../mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../finddialog.cpp ../../main.cpp ../../mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../finddialog.h ../../gotocelldialog.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../finddialog.cpp ../../gotocelldialog.cpp ../../main.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -838,9 +838,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/adam/Qt/6.8.3/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /home/adam/Qt/6.8.3/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_finddialog.cpp moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_finddialog.cpp moc_gotocelldialog.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_finddialog.cpp moc_mainwindow.cpp
+	-$(DEL_FILE) moc_finddialog.cpp moc_gotocelldialog.cpp
 moc_finddialog.cpp: ../../finddialog.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QDialog \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qdialog.h \
@@ -1058,9 +1058,9 @@ moc_finddialog.cpp: ../../finddialog.h \
 		/home/adam/Qt/6.8.3/gcc_64/libexec/moc
 	/home/adam/Qt/6.8.3/gcc_64/libexec/moc $(DEFINES) --include /home/adam/programming/Qt/hello3/build/Desktop_Qt_6_8_3-Debug/moc_predefs.h -I/home/adam/Qt/6.8.3/gcc_64/mkspecs/linux-g++ -I/home/adam/programming/Qt/hello3 -I/home/adam/Qt/6.8.3/gcc_64/include -I/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets -I/home/adam/Qt/6.8.3/gcc_64/include/QtGui -I/home/adam/Qt/6.8.3/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../finddialog.h -o moc_finddialog.cpp
 
-moc_mainwindow.cpp: ../../mainwindow.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QMainWindow \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qmainwindow.h \
+moc_gotocelldialog.cpp: ../../gotocelldialog.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QDialog \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qdialog.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtguiglobal.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qglobal.h \
@@ -1249,10 +1249,31 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qinputmethod.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlocale.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qguiapplication_platform.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QLabel \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlabel.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qframe.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpicture.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextdocument.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QLineEdit \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextcursor.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextformat.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpen.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextoption.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QCheckBox \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qcheckbox.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QPushButton \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlayout.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QVBoxLayout \
 		moc_predefs.h \
 		/home/adam/Qt/6.8.3/gcc_64/libexec/moc
-	/home/adam/Qt/6.8.3/gcc_64/libexec/moc $(DEFINES) --include /home/adam/programming/Qt/hello3/build/Desktop_Qt_6_8_3-Debug/moc_predefs.h -I/home/adam/Qt/6.8.3/gcc_64/mkspecs/linux-g++ -I/home/adam/programming/Qt/hello3 -I/home/adam/Qt/6.8.3/gcc_64/include -I/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets -I/home/adam/Qt/6.8.3/gcc_64/include/QtGui -I/home/adam/Qt/6.8.3/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../mainwindow.h -o moc_mainwindow.cpp
+	/home/adam/Qt/6.8.3/gcc_64/libexec/moc $(DEFINES) --include /home/adam/programming/Qt/hello3/build/Desktop_Qt_6_8_3-Debug/moc_predefs.h -I/home/adam/Qt/6.8.3/gcc_64/mkspecs/linux-g++ -I/home/adam/programming/Qt/hello3 -I/home/adam/Qt/6.8.3/gcc_64/include -I/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets -I/home/adam/Qt/6.8.3/gcc_64/include/QtGui -I/home/adam/Qt/6.8.3/gcc_64/include/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../gotocelldialog.h -o moc_gotocelldialog.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1696,224 +1717,7 @@ finddialog.o: ../../finddialog.cpp /home/adam/Qt/6.8.3/gcc_64/include/QtGui/QtGu
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o finddialog.o ../../finddialog.cpp
 
-main.o: ../../main.cpp /home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QApplication \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qapplication.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtguiglobal.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qglobal.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtversionchecks.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtconfiginclude.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qconfig.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtcore-config.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtconfigmacros.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtdeprecationdefinitions.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtcoreexports.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtdeprecationmarkers.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtclasshelpermacros.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtpreprocessorsupport.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qassert.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtnoop.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtypes.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtversion.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsysinfo.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlogging.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qflags.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcompare_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qatomic.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qyieldcpu.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qconstructormacros.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdarwinhelpers.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qexceptionhandling.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qforeach.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qttypetraits.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfunctionpointer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmalloc.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qminmax.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qnumeric.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qoverload.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qswap.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtenvironmentvariables.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtresource.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qttranslation.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qversiontagging.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtgui-config.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtguiexports.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgetsexports.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstring.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qchar.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcompare.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcomparehelpers.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20type_traits.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringview.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearray.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qrefcount.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qnamespace.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtmetamacros.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qarraydata.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qpair.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qarraydatapointer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qarraydataops.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontainertools_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qxptype_traits.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20functional.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20memory.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearrayalgorithms.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearrayview.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringfwd.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringliteral.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringalgorithms.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlatin1stringview.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qanystringview.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qutf8stringview.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringtokenizer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringconverter.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringconverter_base.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcoreevent.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfunctionaltools_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdeadlinetimer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qelapsedtimer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmetatype.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdatastream.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiodevicebase.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfloat16.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qhashfunctions.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmath.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qalgorithms.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiterable.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmetacontainer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontainerinfo.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtaggedpointer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qscopeguard.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qeventloop.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobject.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlist.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiterator.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearraylist.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringlist.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobject_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbindingstorage.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qnativeinterface.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdebug.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtextstream.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qshareddata.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmap.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qshareddata_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qset.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qhash.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcoreapplication_platform.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfuture.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfutureinterface.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmutex.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtsan_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qresultstore.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfuture_impl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qthreadpool.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qthread.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qrunnable.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qexception.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qpromise.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qvariant.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q23utility.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20utility.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qpoint.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsize.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmargins.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qcursor.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qbitmap.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpixmap.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qrect.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qcolor.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qrgb.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qrgba64.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qimage.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpixelformat.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtransform.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpolygon.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qregion.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qspan.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20iterator.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qline.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qguiapplication.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qinputmethod.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlocale.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qguiapplication_platform.h \
-		../../finddialog.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QDialog \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qdialog.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qwidget.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qaction.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qkeysequence.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qicon.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpalette.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qbrush.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qfont.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qendian.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qfontinfo.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qevent.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiodevice.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qurl.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qeventpoint.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qvector2d.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qvectornd.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpointingdevice.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qinputdevice.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qscreen.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QList \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QObject \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QRect \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QSize \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QSizeF \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/QTransform \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qscreen_platform.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QLabel \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlabel.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qframe.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpicture.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextdocument.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QLineEdit \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlineedit.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextcursor.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextformat.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpen.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextoption.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QCheckBox \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qcheckbox.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QPushButton \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QHBoxLayout \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qboxlayout.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlayout.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qgridlayout.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QVBoxLayout
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
-
-mainwindow.o: ../../mainwindow.cpp /home/adam/Qt/6.8.3/gcc_64/include/QtGui/QtGui \
+gotocelldialog.o: ../../gotocelldialog.cpp /home/adam/Qt/6.8.3/gcc_64/include/QtGui/QtGui \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/QtGuiDepends \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QtCore \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QtCoreDepends \
@@ -2313,18 +2117,14 @@ mainwindow.o: ../../mainwindow.cpp /home/adam/Qt/6.8.3/gcc_64/include/QtGui/QtGu
 		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qundogroup.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qundostack.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qvalidator.h \
-		../../mainwindow.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QMainWindow \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qmainwindow.h \
+		../../gotocelldialog.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QDialog \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qdialog.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgets-config.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgetsexports.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qwidget.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../finddialog.h \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QDialog \
-		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qdialog.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QLabel \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlabel.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qframe.h \
@@ -2341,13 +2141,231 @@ mainwindow.o: ../../mainwindow.cpp /home/adam/Qt/6.8.3/gcc_64/include/QtGui/QtGu
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QVBoxLayout
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gotocelldialog.o ../../gotocelldialog.cpp
+
+main.o: ../../main.cpp /home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QApplication \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qapplication.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qglobal.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtversionchecks.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtconfiginclude.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qconfig.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtcore-config.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtconfigmacros.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtdeprecationdefinitions.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtcoreexports.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtdeprecationmarkers.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtclasshelpermacros.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtpreprocessorsupport.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qassert.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtnoop.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtypes.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtversion.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsysinfo.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlogging.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qflags.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcompare_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qatomic.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qyieldcpu.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qconstructormacros.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdarwinhelpers.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qexceptionhandling.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qforeach.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qttypetraits.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfunctionpointer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmalloc.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qminmax.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qnumeric.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qoverload.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qswap.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtenvironmentvariables.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtresource.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qttranslation.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qversiontagging.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtgui-config.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtguiexports.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qtwidgetsexports.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstring.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qchar.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcompare.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcomparehelpers.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20type_traits.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringview.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearray.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qrefcount.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qnamespace.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtmetamacros.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qarraydata.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qpair.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qarraydataops.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qxptype_traits.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20functional.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20memory.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearrayview.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringfwd.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringliteral.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlatin1stringview.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qanystringview.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qutf8stringview.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringtokenizer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringconverter.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringconverter_base.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcoreevent.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfunctionaltools_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmetatype.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdatastream.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiodevicebase.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfloat16.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmath.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qalgorithms.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiterable.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmetacontainer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontainerinfo.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtaggedpointer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qscopeguard.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qeventloop.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobject.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlist.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiterator.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringlist.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qobject_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qbindingstorage.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qdebug.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtextstream.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qshareddata.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmap.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qshareddata_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qset.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qhash.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfuture.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmutex.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qtsan_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qresultstore.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qfuture_impl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qthreadpool.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qthread.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qrunnable.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qexception.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qpromise.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qvariant.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q23utility.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20utility.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qpoint.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qsize.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qmargins.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qcursor.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qbitmap.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpixmap.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qrect.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qcolor.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qrgb.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qrgba64.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qimage.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpixelformat.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtransform.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpolygon.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qregion.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qspan.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/q20iterator.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qline.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qguiapplication.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qinputmethod.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qlocale.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qguiapplication_platform.h \
+		../../finddialog.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QDialog \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qdialog.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qwidget.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qaction.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qkeysequence.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qicon.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpalette.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qbrush.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qfont.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qendian.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qfontinfo.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qevent.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qiodevice.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/qurl.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qeventpoint.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qvector2d.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qvectornd.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpointingdevice.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qinputdevice.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qscreen.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QList \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QObject \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QRect \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QSize \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtCore/QSizeF \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/QTransform \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qscreen_platform.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QLabel \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlabel.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qframe.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpicture.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextdocument.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QLineEdit \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextcursor.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextformat.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qpen.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtGui/qtextoption.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QCheckBox \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qcheckbox.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QPushButton \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QHBoxLayout \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlayout.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/adam/Qt/6.8.3/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../gotocelldialog.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
 
 moc_finddialog.o: moc_finddialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_finddialog.o moc_finddialog.cpp
 
-moc_mainwindow.o: moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+moc_gotocelldialog.o: moc_gotocelldialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_gotocelldialog.o moc_gotocelldialog.cpp
 
 ####### Install
 
