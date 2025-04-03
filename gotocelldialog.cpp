@@ -2,7 +2,8 @@
 #include <iostream>
 #include "gotocelldialog.h"
 
-GoToCellDialog::GoToCellDialog(QWidget *parent) : QDialog(parent)
+GoToCellDialog::GoToCellDialog(QWidget *parent)
+    : QDialog(parent)
 {
     QRegularExpression regExp("[A-Za-z][1-9][0-9]{0,2}");
 
